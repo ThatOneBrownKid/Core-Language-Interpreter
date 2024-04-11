@@ -37,6 +37,20 @@ Run the interpreter using the command:
 java Main <path_to_code_file> <path_to_data_file>
 ```
 
+## Testing
+
+The project includes a set of test cases for verifying the functionality of the scanner, parser, executor, and garbage collection. The `tester.sh` script is provided to automate the testing process. This script was written by OSU Professor Timothy Carpenter. In order to invoke this script you might need to give it permission by doing the following:
+
+```shell
+chmod 700 tester.sh
+```
+
+And then to rin it simply run:
+
+```shell
+./tester.sh
+```
+
 ## Project Components
 
 ### Project 1: Core Scanner
@@ -59,6 +73,48 @@ Modified the Core interpreter to handle function definitions and calls, includin
 
 Extended the interpreter to include garbage collection, specifically reference counting for array objects. It tracks the number of references to each array object and identifies when objects are no longer reachable, marking them for garbage collection.
 
+## Core Language Syntax and Grammar
+
+The Core language grammar is defined as follows:
+
+```
+<program> ::= program <decl-seq> begin <stmt-seq> end
+
+<decl-seq> ::= <decl> | <decl> <decl-seq>
+
+<stmt-seq> ::= <stmt> | <stmt> <stmt-seq>
+
+<decl> ::= int <id-list>; | bool <id-list>;
+
+<id-list> ::= <id> | <id>, <id-list>
+
+<stmt> ::= <assign> | <if> | <loop> | <in> | <out>
+
+<assign> ::= <id> := <expr>;
+
+<if> ::= if <cond> then <stmt-seq> end | if <cond> then <stmt-seq> else <stmt-seq> end
+
+<loop> ::= while <cond> do <stmt-seq> end
+
+<in> ::= input <id>;
+
+<out> ::= output <expr>;
+
+<cond> ::= <cmp> | !<cond> | <cond> && <cond> | <cond> || <cond>
+
+<cmp> ::= <expr> < <expr> | <expr> == <expr>
+
+<expr> ::= <term> | <term> + <expr> | <term> - <expr>
+
+<term> ::= <factor> | <factor> * <term> | <factor> / <term>
+
+<factor> ::= <id> | <num> | (<expr>) | true | false
+```
+
+This grammar supports variable declarations, basic arithmetic and boolean operations, conditional statements, loops, and input/output operations.
+
+
+
 ## Input/Output
 
 - Input: The interpreter reads from a `.code` file for the program and a `.data` file for input values.
@@ -68,16 +124,4 @@ Extended the interpreter to include garbage collection, specifically reference c
 
 The interpreter implements comprehensive error checking, including syntax and runtime errors. Specific runtime errors related to garbage collection and array usage are highlighted and cause the program to halt with an appropriate error message.
 
-## Testing
 
-The project includes a set of test cases for verifying the functionality of the scanner, parser, executor, and garbage collection. The `tester.sh` script is provided to automate the testing process. This script was written by OSU Professor Timothy Carpenter. In order to invoke this script you might need to give it permission by doing the following:
-
-```shell
-chmod 700 tester.sh
-```
-
-And then to rin it simply run:
-
-```shell
-./tester.sh
-```
